@@ -31,9 +31,54 @@
 									    </div>
 								  	</div>
 								  	<div class="form-group">
-								    	<label for="inputPassword3" class="col-sm-2 control-label">Gender:</label>
+								   		<label for="" class="col-sm-2 control-label">Gender:</label>
+									    <div class="col-sm-10">
+									      	<div class="radio">
+											  	<label  class="radio-inline">
+											    	<input type="radio" name="gender" id="male" value="1" checked />
+											   		Male
+											  	</label>
+											  	<label  class="radio-inline">
+											    	<input type="radio" name="gender" id="female" value="0" />
+											   		Female
+											  	</label>
+											</div>
+									    </div>
+								  	</div>
+								  	<div class="form-group">
+								    	<label for="university" class="col-sm-2 control-label">University:</label>
 							    		<div class="col-sm-10">
-								      		
+								      		<select id="university" class="form-control">
+												<option value="">-- Select a Class --</option>																							
+												<option value="Norton">Norton</option>
+												<option value="PPIU">PPIU</option>
+												<option value="RUPP">RUPP</option>
+												<option value="SETEC">SETEC</option>																																				
+												<option value="Techno">Techno</option>
+												<option value="UP">UP</option>												
+											</select>
+								    	</div>
+								  	</div>
+								  	<div class="form-group">
+								    	<label for="class" class="col-sm-2 control-label">Class:</label>
+							    		<div class="col-sm-10">
+								      		<select id="class" class="form-control">
+												<option value="">-- Select a Class --</option>											
+												<option value="BTB">BTB</option>																			
+												<option value="KPS">KPS</option>
+												<option value="SR">SR</option>		
+												<option value="PP">PP</option>											
+											</select>
+								    	</div>
+								  	</div>
+								  	<div class="form-group">
+								    	<label for="status" class="col-sm-2 control-label">Status:</label>
+							    		<div class="col-sm-10">
+								      		<select id="status" class="form-control">
+												<option value="">-- Select a Status --</option>											
+												<option value="1">Active</option>											
+												<option value="0">Deactivate </option>											
+											</select>
 								    	</div>
 								  	</div>						 	 	
 								  	<div class="form-group">
@@ -42,7 +87,7 @@
 								      		<button type="reset" class="btn btn-danger">Reset</button>
 								    	</div>
 								  	</div>
-								</form>
+								  	</form>
 					  		</div>
 						</div>
 					</div>
