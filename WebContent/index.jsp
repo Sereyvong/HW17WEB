@@ -225,6 +225,14 @@
 			                        message: 'The gender is required and cannot be empty'
 			                    }
 			                }
+			            },
+			            status: {
+			                message: 'The username is not valid',
+			                validators: {
+			                    notEmpty: {
+			                        message: 'The status is required and cannot be empty'
+			                    }
+			                }
 			            }
 			        }
 			    });
