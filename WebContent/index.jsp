@@ -63,7 +63,7 @@
 								  	<div class="form-group">
 								    	<label for="university" class="col-sm-2 control-label">University:</label>
 							    		<div class="col-sm-10">
-								      		<select id="university" class="form-control">
+								      		<select id="university" name="university" class="form-control">
 												<option value="">-- Select a Class --</option>																							
 												<option value="Norton">Norton</option>
 												<option value="PPIU">PPIU</option>
@@ -75,9 +75,9 @@
 								    	</div>
 								  	</div>
 								  	<div class="form-group">
-								    	<label for="class" class="col-sm-2 control-label">Class:</label>
+								    	<label for="classes" class="col-sm-2 control-label">Class:</label>
 							    		<div class="col-sm-10">
-								      		<select id="class" class="form-control">
+								      		<select id="classes" name="classes" class="form-control">
 												<option value="">-- Select a Class --</option>											
 												<option value="BTB">BTB</option>																			
 												<option value="KPS">KPS</option>
@@ -89,7 +89,7 @@
 								  	<div class="form-group">
 								    	<label for="status" class="col-sm-2 control-label">Status:</label>
 							    		<div class="col-sm-10">
-								      		<select id="status" class="form-control">
+								      		<select id="status" name="status" class="form-control">
 												<option value="">-- Select a Status --</option>											
 												<option value="1">Active</option>											
 												<option value="0">Deactivate </option>											
@@ -126,14 +126,14 @@
 											 <label for="search">Search By Name:</label>
 											<input type="text" id="search" class="form-control" placeholder="Search">
 										</div>
-										<select id="class" class="form-control" style="width:150px;">
+										<select id="class" name="class" class="form-control" style="width:150px;">
 											<option value="all">All Class</option>											
 											<option value="BTB">BTB</option>																			
 											<option value="KPS">KPS</option>
 											<option value="SR">SR</option>		
 											<option value="PP">PP</option>											
 										</select>
-										<select id="status" class="form-control" style="width:150px;">
+										<select id="status" name="status" class="form-control" style="width:150px;">
 											<option value="all">All Status</option>											
 											<option value="1">Active</option>											
 											<option value="0">Disactive</option>											
@@ -199,6 +199,30 @@
 			                    regexp: {
 			                        regexp: /^[a-zA-Z_\s.]+$/,
 			                        message: 'The name can only consist of alphabetical, number, dot and underscore'
+			                    }
+			                }
+			            },
+			            university: {
+			                message: 'The username is not valid',
+			                validators: {
+			                    notEmpty: {
+			                        message: 'The university is required and cannot be empty'
+			                    }
+			                }
+			            },
+			            classes: {
+			                message: 'The username is not valid',
+			                validators: {
+			                    notEmpty: {
+			                        message: 'The class is required and cannot be empty'
+			                    }
+			                }
+			            },
+			            gender: {
+			                message: 'The username is not valid',
+			                validators: {
+			                    notEmpty: {
+			                        message: 'The gender is required and cannot be empty'
 			                    }
 			                }
 			            }
