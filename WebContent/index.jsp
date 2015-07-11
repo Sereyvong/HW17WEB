@@ -5,11 +5,15 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Insert title here</title>
+		
 		<link href="css/bootstrap.css" rel="stylesheet"/>
+		<link href="css/bootstrapValidator.css" rel="stylesheet"/>
 		<link href="css/style.css" rel="stylesheet"/>
 		
 		<!-- import js -->
 		<script src="js/jquery.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrapValidator.js"></script>
 	</head>
 	<body>
 		<div id="test"></div>
@@ -23,11 +27,22 @@
 					  	<div class="panel-heading">Insert New Student</div>
 					  	<div class="panel-body">
 					  		<div class="col-xs-12 col-md-6 col-sm-6">	
-						  		<form class="form-horizontal">
+						  		<div class="alert alert-success alert-dismissible" role="alert" id="msg_sucess">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<strong>Well done!</strong> You successfully read this important alert message.
+								</div>
+								<div class="alert alert-danger alert-dismissible" role="alert" id="msg_error">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<strong>Oh snap!</strong> Change a few things up and try submitting again.
+								</div>
+						  		<form method="post" class="form-horizontal" id="frm_add">
+								  									  									  
 								  	<div class="form-group">
 								   		<label for="name" class="col-sm-2 control-label">Name:</label>
 									    <div class="col-sm-10">
-									      	<input type="text" class="form-control" id="name" placeholder="Enter Name...">
+									      	<input type="text" class="form-control" name="name" id="name" placeholder="Enter Name...">
 									    </div>
 								  	</div>
 								  	<div class="form-group">
@@ -83,11 +98,11 @@
 								  	</div>						 	 	
 								  	<div class="form-group">
 								    	<div class="col-sm-offset-2 col-sm-10">
-								      		<button type="submit" class="btn btn-primary">Add</button>
+								      		<button type="button" class="btn btn-primary">Add</button>
 								      		<button type="reset" class="btn btn-danger">Reset</button>
 								    	</div>
 								  	</div>
-								  	</form>
+							  	</form>
 					  		</div>
 						</div>
 					</div>
@@ -156,5 +171,40 @@
 				</div>
         </div>
 		<div style="height:50px;"></div>
+		<script>
+			$(function(){
+				$("#msg_sucess").hide();
+				$("#msg_error").hide();
+			});
+			$(document).ready(function() {
+			    $('#frm_add').bootstrapValidator({
+			        message: 'This value is not valid',
+			        feedbackIcons: {
+			            valid: 'glyphicon glyphicon-ok',
+			            invalid: 'glyphicon glyphicon-remove',
+			            validating: 'glyphicon glyphicon-refresh'
+			        },
+			        fields: {
+			            name: {
+			                message: 'The username is not valid',
+			                validators: {
+			                    notEmpty: {
+			                        message: 'The name is required and cannot be empty'
+			                    },
+			                    stringLength: {
+			                        min: 4,
+			                        max: 30,
+			                        message: 'The name must be more than 4 and less than 30 characters long'
+			                    },
+			                    regexp: {
+			                        regexp: /^[a-zA-Z_\s.]+$/,
+			                        message: 'The name can only consist of alphabetical, number, dot and underscore'
+			                    }
+			                }
+			            }
+			        }
+			    });
+			});
+		</script>
 	</body>
 </html>
