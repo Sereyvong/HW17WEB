@@ -1,18 +1,22 @@
 package Controller;
 
 public class ActionForward {
-	private boolean isDirection = false;
-	private String parth = null;
-	public boolean isDirection() {
-		return isDirection;
+	private boolean isRedirect=false;
+	private String path=null;
+	
+	public boolean isRedirect(){
+		return isRedirect;
 	}
-	public void setDirection(boolean isDirection) {
-		this.isDirection = isDirection;
+	
+	public String getPath(){
+		return path;
 	}
-	public String getParth() {
-		return parth;
+	
+	public void setRedirect(boolean b){
+		isRedirect=b;
 	}
-	public void setParth(String parth) {
-		this.parth = parth;
+	
+	public void setPath(String string){
+		path=string;
 	}	
 }
