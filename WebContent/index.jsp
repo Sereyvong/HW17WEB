@@ -7,7 +7,6 @@
 		<title>Insert title here</title>
 		
 		<link href="css/bootstrap.css" rel="stylesheet"/>
-		<link href="css/bootstrapValidator.css" rel="stylesheet"/>
 		<link href="css/style.css" rel="stylesheet"/>
 		
 		<!-- import js -->
@@ -38,15 +37,15 @@
 									<strong>Oh snap!</strong> Change a few things up and try submitting again.
 								</div>
 						  		<form method="post" class="form-horizontal" id="frm_add">
-								  									  									  
-								  	<div class="form-group">
-								   		<label for="name" class="col-sm-2 control-label">Name:</label>
+								  	<div id="contfrm">								  									  
+								  	<div class="form-group" id="fname">
+								   		<label for="name" class="col-sm-2 control-label">*Name:</label>
 									    <div class="col-sm-10">
 									      	<input type="text" class="form-control" name="name" id="name" placeholder="Enter Name...">
 									    </div>
 								  	</div>
-								  	<div class="form-group">
-								   		<label for="" class="col-sm-2 control-label">Gender:</label>
+								  	<div class="form-group" id="fgender">
+								   		<label for="" class="col-sm-2 control-label">*Gender:</label>
 									    <div class="col-sm-10">
 									      	<div class="radio">
 											  	<label  class="radio-inline">
@@ -54,14 +53,14 @@
 											   		Male
 											  	</label>
 											  	<label  class="radio-inline">
-											    	<input type="radio" name="gender" id="female" value="0" />
+											    	<input type="radio" name="gender" id="female" value="0"  />
 											   		Female
 											  	</label>
 											</div>
 									    </div>
 								  	</div>
-								  	<div class="form-group">
-								    	<label for="university" class="col-sm-2 control-label">University:</label>
+								  	<div class="form-group" id="funiversity">
+								    	<label for="university" class="col-sm-2 control-label">*University:</label>
 							    		<div class="col-sm-10">
 								      		<select id="university" name="university" class="form-control">
 												<option value="">-- Select a Class --</option>																							
@@ -74,8 +73,8 @@
 											</select>
 								    	</div>
 								  	</div>
-								  	<div class="form-group">
-								    	<label for="classes" class="col-sm-2 control-label">Class:</label>
+								  	<div class="form-group" id="fclasses">
+								    	<label for="classes" class="col-sm-2 control-label">*Class:</label>
 							    		<div class="col-sm-10">
 								      		<select id="classes" name="classes" class="form-control">
 												<option value="">-- Select a Class --</option>											
@@ -86,8 +85,8 @@
 											</select>
 								    	</div>
 								  	</div>
-								  	<div class="form-group">
-								    	<label for="status" class="col-sm-2 control-label">Status:</label>
+								  	<div class="form-group" id="fstatus">
+								    	<label for="status" class="col-sm-2 control-label">*Status:</label>
 							    		<div class="col-sm-10">
 								      		<select id="status" name="status" class="form-control">
 												<option value="">-- Select a Status --</option>											
@@ -95,10 +94,11 @@
 												<option value="0">Deactivate </option>											
 											</select>
 								    	</div>
+								  	</div>
 								  	</div>						 	 	
 								  	<div class="form-group">
-								    	<div class="col-sm-offset-2 col-sm-10">
-								      		<button type="button" class="btn btn-primary">Add</button>
+								    	<div class="col-sm-offset-2 col-sm-10">								    		
+								      		<button type="button" id="btnAdd" class="btn btn-primary">Add</button>
 								      		<button type="reset" class="btn btn-danger">Reset</button>
 								    	</div>
 								  	</div>
@@ -127,14 +127,14 @@
 											<input type="text" id="search" class="form-control" placeholder="Search">
 										</div>
 										<select id="class" name="class" class="form-control" style="width:150px;">
-											<option value="all">All Class</option>											
+											<option value="">All Class</option>											
 											<option value="BTB">BTB</option>																			
 											<option value="KPS">KPS</option>
 											<option value="SR">SR</option>		
 											<option value="PP">PP</option>											
 										</select>
-										<select id="status" name="status" class="form-control" style="width:150px;">
-											<option value="all">All Status</option>											
+										<select id="statusSearch" name="status" class="form-control" style="width:150px;">
+											<option value="">All Status</option>											
 											<option value="1">Active</option>											
 											<option value="0">Disactive</option>											
 										</select>
@@ -156,10 +156,25 @@
 													<th class="center-align">University</th>
 													<th class="center-align">Class</th>
 													<th class="center-align">Status</th>
+													<th class="center-align">Action</th>
 												</tr>
 											</thead>
 											<tbody id="con_body">
-												
+												<tr>
+													<td>131N10</td>
+													<td>Neng Channa</td>
+													<td>Male</td>
+													<td>SETEC</td>
+													<td>BTB</td>
+													<td class="center-align">
+														<button type="button" id="1" status="1" onclick="action(1)" data="131N10" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>			
+													</td>
+													<td class="center-align">
+														<button type="button" id="1" status="1" onclick="action(1)" data="131N10" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span></button>
+														<button type="button" id="1" status="1" onclick="action(1)" data="131N10" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></button>
+														<button type="button" id="1" status="1" onclick="action(1)" data="131N10" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>			
+													</td>
+												</tr>
 											</tbody>
 										</table>
 									</div>
@@ -169,12 +184,129 @@
 						</div>
 					</div>
 				</div>
+			</div>		
         </div>
 		<div style="height:50px;"></div>
 		<script>
-			$(function(){
+			function checkError(div){
+				var small = null;
+				for(var j=0; j<div.length;j++){
+					small = $("#"+div[j]).find("div").children("small");
+					for(var i=0;i<small.length;i++){
+						if((small.eq(i).attr("data-bv-result")) == "INVALID")
+							return false;
+					}
+				}
+				return true;
+			}
+			
+			function gender(g){
+				if(g==1)
+					return "Male";
+				return "Female";
+			}
+			function status(s,i,id){
+				if(s==0)
+					return "<button type='button' id='"+i+"' status='1' onclick='action("+i+")' data='"+id+"' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>";
+				else
+					return "<button type='button' id='"+i+"' status='1' onclick='action("+i+")' data='"+id+"' class='btn btn-success'><span class='glyphicon glyphicon-ok'></span></button>";
+			}
+			function listDetailStudent(data){
+				var str = "";
+				for(var i=0; i<data.length; i++){
+					str += "<tr>"+
+								"<td>"+ data[i].id +"</td>"+
+								"<td>"+ data[i].name +"</td>"+
+								"<td>"+ gender(data[i].gender) +"</td>"+
+								"<td>"+ data[i].university +"</td>"+
+								"<td>"+ data[i].classroom +"</td>"+
+								"<td class='center-align'>"+ status(data[i].status,i,data[i].id) +"</td>"+
+								"<td class='center-align'>"+									
+							    "<button type='button' id='"+i+"'  onclick='action("+i+")' data='"+data[i].id+"' class='btn btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>"+
+							    "&nbsp;&nbsp;<button type='button' id='"+i+"'  onclick='action("+i+")' data='"+data[i].id+"' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>"+
+								"</td>"+
+							"</tr>";
+				}
+				$("#con_body").empty();
+				$("#con_body").append(str);
+			}
+			function list(){
+				var status = $("#statusSearch").val();
+				if(status=="")
+					status = 3;
+				
+				$.ajax({
+					url: "slectStudent.act",
+					method: "POST",
+					data: {
+						search : $("#search").val().trim()+"",
+						classes : $("#class").val()+"",
+						status : status
+					},success: function(data){
+						if(data=="success"){
+							listDetailStudent(data);							
+						}else{
+							listDetailStudent(data);
+						}
+					}
+				});
+				
+			}
+			function clearFrm(){
+				$("#name").val("");
+				$("#university").val("");
+				$("#classes").val("");
+				$("#status").val(""); 
+				var div = new Array("fname","fgender","funiversity","fclasses","fstatus");
+				
+				for(var j=0; j<div.length;j++){
+					$("#"+div[j]).removeClass("has-error").removeClass("has-success");
+					$("#"+div[j]).find("i").attr("style","display:none");
+				}
+				
+			}
+			$(function(){	
+					
 				$("#msg_sucess").hide();
 				$("#msg_error").hide();
+				
+				list();
+				
+				$("#btnAdd").click(function(){
+					$("#frm_add").submit();
+					if(checkError(new Array("fname","funiversity","fclasses","fstatus")) == true){
+						$.ajax({
+							url: "addstudent.act",
+							method: "POST",
+							data: {
+								name : $("#name").val(),
+								gender : $("input[name=gender]:checked").val(),
+								university : $("#university").val(),
+								classes : $("#classes").val(),
+								status : $("#status").val()
+							},success: function(data){
+								if(data=="success"){
+									clearFrm();
+									$("#msg_sucess").show();									
+								}else{
+									$("#msg_error").show();
+								}
+							}
+						});
+					}else{
+						
+					}
+				});
+				
+				$("#search").keyup(function(){
+					list();					
+				});
+				$("#class").change(function(){
+					list();	
+				});
+				$("#statusSearch").change(function(){
+					list();	
+				});
 			});
 			$(document).ready(function() {
 			    $('#frm_add').bootstrapValidator({
@@ -235,7 +367,7 @@
 			                }
 			            }
 			        }
-			    });
+                });
 			});
 		</script>
 	</body>
