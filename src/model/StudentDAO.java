@@ -19,8 +19,6 @@ public class StudentDAO {
 		try{
 			con = (Connection) new DBConnection().getConnection();
 			ps = con.prepareStatement("INSERT INTO  hrd_students(stu_id,stu_name,stu_gender,stu_university,stu_class,stu_status) VALUES(?,?,?,?,?,?)");
-			
-			System.out.println(lastID());
 			ps.setString(1, lastID());		
 			ps.setString(2, stu.getName());
 			ps.setInt(3, stu.getGender());
@@ -38,17 +36,70 @@ public class StudentDAO {
 		}
 		return false;
 	}
-	public boolean updateStudent(Student stu){
-		
+	public boolean updateStudent(Student stu) throws SQLException{
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		try{
+			con = (Connection) new DBConnection().getConnection();
+			ps = con.prepareStatement("UPDATE hrd_students SET stu_name= ? , stu_gender= ? , stu_university= ? , stu_class= ? , stu_status= ? WHERE stu_id= ? ");
+					
+			ps.setString(1, stu.getName());	
+			ps.setInt(2, stu.getGender());
+			ps.setString(3, stu.getUniversity());
+			ps.setString(4, stu.getClassroom());
+			ps.setInt(5, stu.getStatus());
+			ps.setString(6, stu.getId());	
+			
+			if(ps.executeUpdate()>0){
+				return true;
+			}	
+		}finally{
+			if(rs !=null) rs.close();
+			if(ps !=null) ps.close();
+			if(con !=null) con.close();
+		}
 		return false;
 	}
-	public boolean deleteStudent(int id){
-		
-		return false;
+	public boolean deleteStudent(String id) throws SQLException{
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		try{			
+			con = (Connection) new DBConnection().getConnection();			
+			ps = con.prepareStatement("DELETE FROM hrd_students WHERE stu_id=?");											
+			ps.setString(1,id);
+			if(ps.executeUpdate()>0)
+				return true;
+			return false;
+		}finally{
+			if(rs !=null) rs.close();
+			if(ps !=null) ps.close();
+			if(con !=null) con.close();
+		}
 	}
-	public Student getStudent(int id){
-		
-		return null;
+	public int checkStatus(int status){
+		if(status==0) return 1;
+		else return 0;
+	}
+
+	public boolean statusStudent(String id,int status) throws SQLException{
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		try{
+			con = (Connection) new DBConnection().getConnection();
+			ps = con.prepareStatement("UPDATE hrd_students SET stu_status= ? WHERE stu_id= ? ");
+			
+			ps.setInt(1,checkStatus(status));		
+			ps.setString(2, id);				
+			
+			if(ps.executeUpdate()>0){
+				return true;
+			}	
+		}finally{
+			if(rs !=null) rs.close();
+			if(ps !=null) ps.close();
+			if(con !=null) con.close();
+		}
+		return false;
 	}
 	@SuppressWarnings("finally")
 	public ArrayList<Student> getStudents(Student stu) throws SQLException{
@@ -140,6 +191,6 @@ public class StudentDAO {
 	}
 	public static void main(String[] args) throws SQLException, Exception {
 		//System.out.println(new StudentDAO().lastID());
-		//System.out.println(new StudentDAO().getStudents(new Student(0,"s",0,"","BTB",3)).size());
+		//System.out.println(new StudentDAO().updateStudent(new Student("131N13","Apple",0,"SETEC","BTB",1)));
 	}
 }

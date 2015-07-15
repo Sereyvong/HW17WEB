@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Controller.Student.AddStudent;
+import Controller.Student.DeleteStudent;
 import Controller.Student.SelectStudent;
+import Controller.Student.StatusStudent;
+import Controller.Student.UpdateStudent;
 
 @WebServlet("*.act")
 public class MainController extends HttpServlet{
@@ -29,7 +32,7 @@ public class MainController extends HttpServlet{
 		String contextPath = req.getContextPath();
 		String command = requestURI.substring(contextPath.length());
 		
-		System.out.println(requestURI);
+		//System.out.println(requestURI);
 		
 		ActionForward forward = null;
 		Action action = null;
@@ -49,8 +52,32 @@ public class MainController extends HttpServlet{
 					forward = action.execute(req, resp);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}			
+				}	
 				break; 
+			case "/deletestudent.act":
+				action = new DeleteStudent();
+				try {
+					forward = action.execute(req, resp);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}			
+				break;
+			case "/updatestudent.act":
+				action = new UpdateStudent();
+				try {
+					forward = action.execute(req, resp);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}			
+				break;
+			case "/statusstudent.act":
+				action = new StatusStudent();
+				try {
+					forward = action.execute(req, resp);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}			
+				break;
 		}
 		if (forward != null) {
 			if (forward.isRedirect()) {

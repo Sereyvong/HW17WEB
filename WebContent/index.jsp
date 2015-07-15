@@ -47,23 +47,17 @@
 								  	<div class="form-group" id="fgender">
 								   		<label for="" class="col-sm-2 control-label">*Gender:</label>
 									    <div class="col-sm-10">
-									      	<div class="radio">
-											  	<label  class="radio-inline">
-											    	<input type="radio" name="gender" id="male" value="1" checked />
-											   		Male
-											  	</label>
-											  	<label  class="radio-inline">
-											    	<input type="radio" name="gender" id="female" value="0"  />
-											   		Female
-											  	</label>
-											</div>
+									      	<select id="gender" name="gender" class="form-control">																					
+												<option value="1">Male</option>
+												<option value="0">Female</option>																					
+											</select>
 									    </div>
 								  	</div>
 								  	<div class="form-group" id="funiversity">
 								    	<label for="university" class="col-sm-2 control-label">*University:</label>
 							    		<div class="col-sm-10">
 								      		<select id="university" name="university" class="form-control">
-												<option value="">-- Select a Class --</option>																							
+												<option value="">-- Select a University --</option>																							
 												<option value="Norton">Norton</option>
 												<option value="PPIU">PPIU</option>
 												<option value="RUPP">RUPP</option>
@@ -98,8 +92,8 @@
 								  	</div>						 	 	
 								  	<div class="form-group">
 								    	<div class="col-sm-offset-2 col-sm-10">								    		
-								      		<button type="button" id="btnAdd" class="btn btn-primary">Add</button>
-								      		<button type="reset" class="btn btn-danger">Reset</button>
+								      		<button type="button" id="btnAdd" act="add" class="btn btn-primary">Add</button>
+								      		<button type="button" id="btnReset" class="btn btn-danger">Reset</button>
 								    	</div>
 								  	</div>
 							  	</form>
@@ -186,8 +180,47 @@
 				</div>
 			</div>		
         </div>
+        <div id="myModal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+			    	<!-- dialog body -->
+			   		<div class="modal-body">
+			     		<button type="button" class="close" data-dismiss="modal">&times;</button>
+			    	 	Are you sure? You want to delete.
+			   		</div>
+			   		<!-- dialog buttons -->
+			    	<div class="modal-footer">
+			    		<button type="button" id="delete" class="btn btn-primary">Delete</button>
+			    		<button data-dismiss="modal" data-bb-handler="cancel" type="button" class="btn btn-default">Cancel</button>
+			    	</div>
+		  		</div>
+			</div>
+		</div>
 		<div style="height:50px;"></div>
 		<script>
+			var code = "";
+			function agree(){
+			    $("#myModal").on("show", function() {    // wire up the OK button to dismiss the modal when shown
+			        $("#myModal a.btn").on("click", function(e) {
+			            console.log("button pressed");   // just as an example...
+			            $("#myModal").modal('hide');     // dismiss the dialog
+			        });
+			    });
+		
+			    $("#myModal").on("hide", function() {    // remove the event listeners when the dialog is dismissed
+			        $("#myModal a.btn").off("click");
+			    });
+			    
+			    $("#myModal").on("hidden", function() {  // remove the actual elements from the DOM when fully hidden
+			        $("#myModal").remove();
+			    });
+			    
+			    $("#myModal").modal({                    // wire up the actual modal functionality and show the dialog
+			      "backdrop"  : "static",
+			      "keyboard"  : true,
+			      "show"      : true                     // ensure the modal is shown immediately
+			    });
+			}
 			function checkError(div){
 				var small = null;
 				for(var j=0; j<div.length;j++){
@@ -207,9 +240,9 @@
 			}
 			function status(s,i,id){
 				if(s==0)
-					return "<button type='button' id='"+i+"' status='1' onclick='action("+i+")' data='"+id+"' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>";
+					return "<button type='button' id='"+i+"' status='0' onclick='act_satus("+i+")' data='"+id+"' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>";
 				else
-					return "<button type='button' id='"+i+"' status='1' onclick='action("+i+")' data='"+id+"' class='btn btn-success'><span class='glyphicon glyphicon-ok'></span></button>";
+					return "<button type='button' id='"+i+"' status='1' onclick='act_satus("+i+")' data='"+id+"' class='btn btn-success'><span class='glyphicon glyphicon-ok'></span></button>";
 			}
 			function listDetailStudent(data){
 				var str = "";
@@ -222,10 +255,13 @@
 								"<td>"+ data[i].classroom +"</td>"+
 								"<td class='center-align'>"+ status(data[i].status,i,data[i].id) +"</td>"+
 								"<td class='center-align'>"+									
-							    "<button type='button' id='"+i+"'  onclick='action("+i+")' data='"+data[i].id+"' class='btn btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>"+
-							    "&nbsp;&nbsp;<button type='button' id='"+i+"'  onclick='action("+i+")' data='"+data[i].id+"' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>"+
+							    "<button type='button' id='"+i+"'  onclick='editStudent("+i+")' data='"+data[i].id+"' class='btn btn-primary'><span class='glyphicon glyphicon-pencil'></span></button>"+
+							    "&nbsp;&nbsp;<button type='button' id='"+i+"'  onclick='deleteStudent("+i+")' data='"+data[i].id+"' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>"+
 								"</td>"+
 							"</tr>";
+				}
+				if(data.length==0){
+					str +="<tr><td colspan='7'>No record...</td>></tr>"
 				}
 				$("#con_body").empty();
 				$("#con_body").append(str);
@@ -254,6 +290,7 @@
 			}
 			function clearFrm(){
 				$("#name").val("");
+				$("#gender").val("1");
 				$("#university").val("");
 				$("#classes").val("");
 				$("#status").val(""); 
@@ -265,34 +302,131 @@
 				}
 				
 			}
+			function deleteStudent(id){
+				agree();
+				$("#delete").click(function(){
+					$("#myModal").modal('hide'); 
+					$.ajax({
+						url: "deletestudent.act",
+						method: "POST",
+						data: {
+							code : $("#"+id).attr("data")
+						},success: function(data){
+							if(data=="success"){							
+								$("#"+id).parent().parent().remove();
+							}
+						}
+					}); 
+				});
+				
+			}
+			function editStudent(id){
+				clearFrm();
+				var td = $("#"+id).parent().parent().children("td");				
+				$("#name").val(td.eq(1).text());
+				$("#university").val(td.eq(3).text());
+				$("#classes").val(td.eq(4).text());
+				$("#status").val(td.eq(5).find("button").attr("status"));
+				
+				if(td.eq(2).text()=="Male"){
+					$("#gender").val("1");
+				}else{
+					$("#gender").val("0");
+				}
+				
+				$("#btnAdd").text("Edit");
+				$("#btnAdd").attr("act","edit");
+				
+				 code = $("#"+id).attr("data");
+			}
+			function act_satus(id){
+				var status = $("#"+id).attr("status");
+				$.ajax({
+					url: "statusstudent.act",
+					method: "POST",
+					data: {
+						code : $("#"+id).attr("data"),
+						status : status
+					},success: function(data){
+						if(data=="success"){														
+							if(status==1){
+								if(($("#statusSearch").val() == "1") || ($("#statusSearch").val()=="0")){ // check search all not 							
+									$("#"+id).parent().parent().remove();// remove record
+									
+								}else{
+									$("#"+id).attr("status",'0'); // get status
+									$("#"+id).removeClass("btn btn-success").addClass("btn btn-danger");// change btn status to disactive
+									$("#"+id).find("span").removeClass("glyphicon glyphicon-ok").addClass("glyphicon glyphicon-remove");// change btn icon to disactive
+								}
+							}else{
+								if(($("#statusSearch").val() == "1") || ($("#statusSearch").val()=="0")){ // check search all not 
+									$("#"+id).parent().parent().remove();// remove record
+								}else{
+									$("#"+id).attr("status",'1');// get status
+									$("#"+id).removeClass("btn btn-danger").addClass("btn btn-success"); // change btn status to active
+									$("#"+id).find("span").removeClass("glyphicon glyphicon-remove").addClass("glyphicon glyphicon-ok");// change btn icon to active
+								}
+							}
+						}else{
+							
+						}
+					}
+				});
+			}
 			$(function(){	
 					
 				$("#msg_sucess").hide();
 				$("#msg_error").hide();
 				
 				list();
-				
+				$("#btnReset").click(function(){
+					clearFrm();
+				});
 				$("#btnAdd").click(function(){
-					$("#frm_add").submit();
+					$("#frm_add").submit();					
 					if(checkError(new Array("fname","funiversity","fclasses","fstatus")) == true){
-						$.ajax({
-							url: "addstudent.act",
-							method: "POST",
-							data: {
-								name : $("#name").val(),
-								gender : $("input[name=gender]:checked").val(),
-								university : $("#university").val(),
-								classes : $("#classes").val(),
-								status : $("#status").val()
-							},success: function(data){
-								if(data=="success"){
-									clearFrm();
-									$("#msg_sucess").show();									
-								}else{
-									$("#msg_error").show();
+						if($(this).attr("act")=="add"){
+							$.ajax({
+								url: "addstudent.act",
+								method: "POST",
+								data: {
+									name : $("#name").val(),
+									gender : $("#gender").val(),
+									university : $("#university").val(),
+									classes : $("#classes").val(),
+									status : $("#status").val()
+								},success: function(data){
+									if(data=="success"){							
+										clearFrm();
+										$("#msg_sucess").show();
+										list();
+									}else{
+										$("#msg_error").show();
+									}
 								}
-							}
-						});
+							});
+						}else{
+							$.ajax({
+								url: "updatestudent.act",
+								method: "POST",
+								data: {
+									code : code,
+									name : $("#name").val(),
+									gender : $("#gender").val(),
+									university : $("#university").val(),
+									classes : $("#classes").val(),
+									status : $("#status").val()
+								},success: function(data){
+									if(data=="success"){							
+										clearFrm();
+										$("#msg_sucess").show();
+										list();
+									}else{
+										$("#msg_error").show();
+									}
+								}
+							});
+						}
 					}else{
 						
 					}
