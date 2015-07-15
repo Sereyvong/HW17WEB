@@ -1,16 +1,17 @@
 package model;
 
 public class Student {
-	private int id;
+	private String id;
 	private String name;
 	private int gender;
 	private String classroom;
-	private String school;
+	private String university;
 	private int status;
-	public int getId() {
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -31,11 +32,11 @@ public class Student {
 	public void setClassroom(String classroom) {
 		this.classroom = classroom;
 	}
-	public String getSchool() {
-		return school;
+	public String getUniversity() {
+		return university;
 	}
-	public void setSchool(String school) {
-		this.school = school;
+	public void setUniversity(String university) {
+		this.university = university;
 	}
 	public int getStatus() {
 		return status;
@@ -43,12 +44,15 @@ public class Student {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public Student(int id, String name, int gender, String classroom, String school, int status) {
+	public Student(){
+		
+	}
+	public Student(String id, String name, int gender,  String university,String classroom, int status) {
 		this.id = id;
 		this.name = name;
 		this.gender = gender;
 		this.classroom = classroom;
-		this.school = school;
+		this.university = university;
 		this.status = status;
 	}
 	
