@@ -32,46 +32,45 @@ public class MainController extends HttpServlet{
 		String contextPath = req.getContextPath();
 		String command = requestURI.substring(contextPath.length());
 		
-		//System.out.println(requestURI);
 		
 		ActionForward forward = null;
 		Action action = null;
 		
 		switch(command){
-			case "/addstudent.act":
-				action = new AddStudent();
+			case "/addstudent.act": // add student action
+				action = new AddStudent(); // create add student Controller
 				try {
 					forward = action.execute(req, resp);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}				
 				break; 
-			case "/slectStudent.act":
-				action = new SelectStudent();
+			case "/slectStudent.act": // select student action
+				action = new SelectStudent(); // create select student Controller
 				try {
 					forward = action.execute(req, resp);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}	
 				break; 
-			case "/deletestudent.act":
-				action = new DeleteStudent();
+			case "/deletestudent.act": // delete student action
+				action = new DeleteStudent();// create delete student Controller
 				try {
 					forward = action.execute(req, resp);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}			
 				break;
-			case "/updatestudent.act":
-				action = new UpdateStudent();
+			case "/updatestudent.act": // update student
+				action = new UpdateStudent();// create update info student Controller
 				try {
 					forward = action.execute(req, resp);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}			
 				break;
-			case "/statusstudent.act":
-				action = new StatusStudent();
+			case "/statusstudent.act": // update status student
+				action = new StatusStudent(); // create status student Controller
 				try {
 					forward = action.execute(req, resp);
 				} catch (Exception e) {

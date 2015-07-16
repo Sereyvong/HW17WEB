@@ -1,5 +1,14 @@
 package model;
-
+/* 
+ * @id is student ID
+ * @name is student Name
+ * @gender is student gender
+ * @classroom is student class
+ * @university is student university
+ * @status is student stutus active or deactive
+ * 
+ * 
+ */
 public class Student {
 	private String id;
 	private String name;

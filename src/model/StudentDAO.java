@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,13 +27,14 @@ public class StudentDAO {
 			
 			if(ps.executeUpdate()>0){
 				return true;
-			}	
+			}else{
+				return false;
+			}
 		}finally{
 			if(rs !=null) rs.close();
 			if(ps !=null) ps.close();
 			if(con !=null) con.close();
-		}
-		return false;
+		}		
 	}
 	public boolean updateStudent(Student stu) throws SQLException{
 		PreparedStatement ps=null;
@@ -52,13 +52,14 @@ public class StudentDAO {
 			
 			if(ps.executeUpdate()>0){
 				return true;
-			}	
+			}else{
+				return false;
+			}
 		}finally{
 			if(rs !=null) rs.close();
 			if(ps !=null) ps.close();
 			if(con !=null) con.close();
 		}
-		return false;
 	}
 	public boolean deleteStudent(String id) throws SQLException{
 		PreparedStatement ps=null;
@@ -93,13 +94,14 @@ public class StudentDAO {
 			
 			if(ps.executeUpdate()>0){
 				return true;
-			}	
+			}else{
+				return false;
+			}
 		}finally{
 			if(rs !=null) rs.close();
 			if(ps !=null) ps.close();
 			if(con !=null) con.close();
 		}
-		return false;
 	}
 	@SuppressWarnings("finally")
 	public ArrayList<Student> getStudents(Student stu) throws SQLException{
@@ -165,9 +167,5 @@ public class StudentDAO {
 			if(con !=null) con.close();
 			return lastID;
 		}
-	}	
-	public static void main(String[] args) throws SQLException, Exception {
-		//System.out.println(new StudentDAO().lastID());
-		//System.out.println(new StudentDAO().updateStudent(new Student("131N13","Apple",0,"SETEC","BTB",1)));
 	}
 }
