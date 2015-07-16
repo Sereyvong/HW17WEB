@@ -128,6 +128,7 @@ public class StudentDAO {
 			else
 				sql += " AND "+where.get(i);
 		}
+		sql +=" ORDER BY cast(replace(stu_id,'131N','') as SIGNED ) DESC";
 		try{
 			
 			con = (Connection) new DBConnection().getConnection();			
@@ -152,11 +153,10 @@ public class StudentDAO {
 		String lastID = "131N1";
 		try{
 			con = (Connection) new DBConnection().getConnection();			
-			ps = con.prepareStatement("SELECT * FROM hrd_students LIMIT 1 OFFSET ? ");
-			ps.setInt(1, countRecord()-1);
+			ps = con.prepareStatement("select cast(replace(stu_id,'131N','') as SIGNED ) as id from hrd_students order by id desc limit 1");
 			rs = ps.executeQuery();
 			while(rs.next()){
-				lastID = "131N"+(Integer.parseInt(rs.getString(1).replace("131N",""))+1);			
+				lastID = "131N"+(rs.getInt(1)+1);			
 			}
 			
 		}finally{
@@ -165,30 +165,7 @@ public class StudentDAO {
 			if(con !=null) con.close();
 			return lastID;
 		}
-	}
-	@SuppressWarnings("finally")
-	public int countRecord() throws SQLException{
-		PreparedStatement ps=null;
-		ResultSet rs=null;
-		int count = 0;
-		try{
-			con = (Connection) new DBConnection().getConnection();
-			ps = con.prepareStatement("SELECT count(*) FROM hrd_students");
-			rs = ps.executeQuery();
-			while(rs.next())
-				count  = rs.getInt(1);
-	
-		}finally{
-			if(rs !=null) rs.close();
-			if(ps !=null) ps.close();
-			if(con !=null) con.close();						
-			
-			if(count == 0)
-				return 0;
-			else
-				return count;
-		}
-	}
+	}	
 	public static void main(String[] args) throws SQLException, Exception {
 		//System.out.println(new StudentDAO().lastID());
 		//System.out.println(new StudentDAO().updateStudent(new Student("131N13","Apple",0,"SETEC","BTB",1)));

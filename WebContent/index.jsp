@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Insert title here</title>
+		<title>Student Management</title>
 		
 		<link href="css/bootstrap.css" rel="stylesheet"/>
 		<link href="css/style.css" rel="stylesheet"/>
@@ -27,13 +27,13 @@
 					  	<div class="panel-body">
 					  		<div class="col-xs-12 col-md-6 col-sm-6">	
 						  		<div class="alert alert-success alert-dismissible" role="alert" id="msg_sucess">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
+									<button type="button" class="close">
+										<span onclick="close_success()">&times;</span>
 									</button>
 									<strong>Well done!</strong> You successfully read this important alert message.
 								</div>
 								<div class="alert alert-danger alert-dismissible" role="alert" id="msg_error">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<button type="button" class="close"><span onclick="close_error()">&times;</span></button>
 									<strong>Oh snap!</strong> Change a few things up and try submitting again.
 								</div>
 						  		<form method="post" class="form-horizontal" id="frm_add">
@@ -199,6 +199,14 @@
 		<div style="height:50px;"></div>
 		<script>
 			var code = "";
+			function close_success(){
+				$("#msg_sucess").hide();
+				$("#msg_error").hide();
+			}
+			function close_error(){
+				$("#msg_sucess").hide();
+				$("#msg_error").hide();
+			}
 			function agree(){
 			    $("#myModal").on("show", function() {    // wire up the OK button to dismiss the modal when shown
 			        $("#myModal a.btn").on("click", function(e) {
@@ -220,17 +228,6 @@
 			      "keyboard"  : true,
 			      "show"      : true                     // ensure the modal is shown immediately
 			    });
-			}
-			function checkError(div){
-				var small = null;
-				for(var j=0; j<div.length;j++){
-					small = $("#"+div[j]).find("div").children("small");
-					for(var i=0;i<small.length;i++){
-						if((small.eq(i).attr("data-bv-result")) == "INVALID")
-							return false;
-					}
-				}
-				return true;
 			}
 			
 			function gender(g){
@@ -289,18 +286,8 @@
 				
 			}
 			function clearFrm(){
-				$("#name").val("");
-				$("#gender").val("1");
-				$("#university").val("");
-				$("#classes").val("");
-				$("#status").val(""); 
-				var div = new Array("fname","fgender","funiversity","fclasses","fstatus");
-				
-				for(var j=0; j<div.length;j++){
-					$("#"+div[j]).removeClass("has-error").removeClass("has-success");
-					$("#"+div[j]).find("i").attr("style","display:none");
-				}
-				
+				 $('#frm_add').bootstrapValidator('resetForm', true);
+				 $("#gender").val("1");
 			}
 			function deleteStudent(id){
 				agree();
@@ -351,8 +338,7 @@
 						if(data=="success"){														
 							if(status==1){
 								if(($("#statusSearch").val() == "1") || ($("#statusSearch").val()=="0")){ // check search all not 							
-									$("#"+id).parent().parent().remove();// remove record
-									
+									$("#"+id).parent().parent().remove();// remove record									
 								}else{
 									$("#"+id).attr("status",'0'); // get status
 									$("#"+id).removeClass("btn btn-success").addClass("btn btn-danger");// change btn status to disactive
@@ -383,53 +369,7 @@
 					clearFrm();
 				});
 				$("#btnAdd").click(function(){
-					$("#frm_add").submit();					
-					if(checkError(new Array("fname","funiversity","fclasses","fstatus")) == true){
-						if($(this).attr("act")=="add"){
-							$.ajax({
-								url: "addstudent.act",
-								method: "POST",
-								data: {
-									name : $("#name").val(),
-									gender : $("#gender").val(),
-									university : $("#university").val(),
-									classes : $("#classes").val(),
-									status : $("#status").val()
-								},success: function(data){
-									if(data=="success"){							
-										clearFrm();
-										$("#msg_sucess").show();
-										list();
-									}else{
-										$("#msg_error").show();
-									}
-								}
-							});
-						}else{
-							$.ajax({
-								url: "updatestudent.act",
-								method: "POST",
-								data: {
-									code : code,
-									name : $("#name").val(),
-									gender : $("#gender").val(),
-									university : $("#university").val(),
-									classes : $("#classes").val(),
-									status : $("#status").val()
-								},success: function(data){
-									if(data=="success"){							
-										clearFrm();
-										$("#msg_sucess").show();
-										list();
-									}else{
-										$("#msg_error").show();
-									}
-								}
-							});
-						}
-					}else{
-						
-					}
+					$("#frm_add").submit();	
 				});
 				
 				$("#search").keyup(function(){
@@ -501,6 +441,49 @@
 			                }
 			            }
 			        }
+                }).on('success.form.bv', function(e) { 
+                    if($("#btnAdd").attr("act")=="add"){
+                		$.ajax({
+							url: "addstudent.act",
+							method: "POST",
+							data: {
+								name : $("#name").val(),
+								gender : $("#gender").val(),
+								university : $("#university").val(),
+								classes : $("#classes").val(),
+								status : $("#status").val()
+							},success: function(data){
+								if(data=="success"){							
+									clearFrm();
+									$("#msg_sucess").show();
+									list();
+								}else{
+									$("#msg_error").show();
+								}
+							}
+						});
+					}else{
+						$.ajax({
+							url: "updatestudent.act",
+							method: "POST",
+							data: {
+								code : code,
+								name : $("#name").val(),
+								gender : $("#gender").val(),
+								university : $("#university").val(),
+								classes : $("#classes").val(),
+								status : $("#status").val()
+							},success: function(data){
+								if(data=="success"){							
+									clearFrm();
+									$("#msg_sucess").show();
+									list();
+								}else{
+									$("#msg_error").show();
+								}
+							}
+						});
+					}
                 });
 			});
 		</script>
