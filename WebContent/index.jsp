@@ -198,15 +198,18 @@
 		</div>
 		<div style="height:50px;"></div>
 		<script>
-			var code = "";
+			var code = "";  // this variable store id of student
+			/*--  hide message success  --*/
 			function close_success(){
 				$("#msg_sucess").hide();
 				$("#msg_error").hide();
 			}
+			/*--  hide message error  --*/
 			function close_error(){
 				$("#msg_sucess").hide();
 				$("#msg_error").hide();
 			}
+			/*--  function alert confim delete  --*/
 			function agree(){
 			    $("#myModal").on("show", function() {    // wire up the OK button to dismiss the modal when shown
 			        $("#myModal a.btn").on("click", function(e) {
@@ -229,18 +232,20 @@
 			      "show"      : true                     // ensure the modal is shown immediately
 			    });
 			}
-			
+			/*--  function return String Male and Female  --*/
 			function gender(g){
 				if(g==1)
 					return "Male";
 				return "Female";
 			}
+			/*--  function btn Status return active or deactivate --*/
 			function status(s,i,id){
 				if(s==0)
 					return "<button type='button' id='"+i+"' status='0' onclick='act_satus("+i+")' data='"+id+"' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button>";
 				else
 					return "<button type='button' id='"+i+"' status='1' onclick='act_satus("+i+")' data='"+id+"' class='btn btn-success'><span class='glyphicon glyphicon-ok'></span></button>";
 			}
+			/*--  function list student detail read from json--*/
 			function listDetailStudent(data){
 				var str = "";
 				for(var i=0; i<data.length; i++){
@@ -263,6 +268,8 @@
 				$("#con_body").empty();
 				$("#con_body").append(str);
 			}
+			
+			/*--  function list select student --*/
 			function list(){
 				var status = $("#statusSearch").val();
 				if(status=="")
@@ -285,10 +292,13 @@
 				});
 				
 			}
+			/*--  function clear form add using bootstrap validator --*/
 			function clearFrm(){
 				 $('#frm_add').bootstrapValidator('resetForm', true);
 				 $("#gender").val("1");
 			}
+			
+			/*--  function delete student --*/
 			function deleteStudent(id){
 				agree();
 				$("#delete").click(function(){
@@ -307,6 +317,7 @@
 				});
 				
 			}
+			/*--  function edit student --*/
 			function editStudent(id){
 				clearFrm();
 				var td = $("#"+id).parent().parent().children("td");				
@@ -326,6 +337,7 @@
 				
 				 code = $("#"+id).attr("data");
 			}
+			/*--  function edit status student --*/
 			function act_satus(id){
 				var status = $("#"+id).attr("status");
 				$.ajax({
@@ -359,31 +371,45 @@
 					}
 				});
 			}
-			$(function(){	
-					
+			$(function(){					
 				$("#msg_sucess").hide();
 				$("#msg_error").hide();
 				
+				/*--  call list student --*/
 				list();
+				
+				/*--  event btn reset --*/
 				$("#btnReset").click(function(){
 					clearFrm();
 				});
+				
+				/*--  event btn add --*/
 				$("#btnAdd").click(function(){
 					$("#frm_add").submit();	
 				});
 				
+				
+				/*--  event search name --*/
 				$("#search").keyup(function(){
 					list();					
 				});
+				
+				/*--  event search class --*/
 				$("#class").change(function(){
 					list();	
 				});
+				
+				/*--  event search status --*/
 				$("#statusSearch").change(function(){
 					list();	
 				});
 			});
+			
+			
 			$(document).ready(function() {
-			    $('#frm_add').bootstrapValidator({
+			    
+				/*--  validate from add --*/
+				$('#frm_add').bootstrapValidator({
 			        message: 'This value is not valid',
 			        feedbackIcons: {
 			            valid: 'glyphicon glyphicon-ok',
@@ -442,7 +468,9 @@
 			            }
 			        }
                 }).on('success.form.bv', function(e) { 
-                    if($("#btnAdd").attr("act")=="add"){
+                    
+                	/*--  add btn action --*/
+                	if($("#btnAdd").attr("act")=="add"){
                 		$.ajax({
 							url: "addstudent.act",
 							method: "POST",
@@ -463,6 +491,7 @@
 							}
 						});
 					}else{
+						/*--  edit btn action --*/
 						$.ajax({
 							url: "updatestudent.act",
 							method: "POST",

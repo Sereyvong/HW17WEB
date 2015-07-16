@@ -10,11 +10,18 @@ import com.mysql.jdbc.Connection;
 import ultilities.DBConnection;
 
 public class StudentDAO {
-	Connection con=null;	
-	public boolean insertStudent(Student stu) throws SQLException{				
-		
+	Connection con=null;
+	
+	/*
+	 * @method insertStudent : for to insert new student if success return true else return false
+	 * @param Student stu : Student info
+	 * 
+	 */
+	@SuppressWarnings("finally")
+	public boolean insertStudent(Student stu) throws SQLException{		
 		PreparedStatement ps=null;
 		ResultSet rs=null;
+		boolean result = false;
 		try{
 			con = (Connection) new DBConnection().getConnection();
 			ps = con.prepareStatement("INSERT INTO  hrd_students(stu_id,stu_name,stu_gender,stu_university,stu_class,stu_status) VALUES(?,?,?,?,?,?)");
@@ -26,19 +33,28 @@ public class StudentDAO {
 			ps.setInt(6, stu.getStatus());
 			
 			if(ps.executeUpdate()>0){
-				return true;
+				result=true;
 			}else{
-				return false;
+				result= false;
 			}
 		}finally{
 			if(rs !=null) rs.close();
 			if(ps !=null) ps.close();
 			if(con !=null) con.close();
+			
+			return result;
 		}		
 	}
+	/*
+	 * @method updateStudent : for to update info student if success return true else return false
+	 * @param Student stu : Student info
+	 * 
+	 */
+	@SuppressWarnings("finally")
 	public boolean updateStudent(Student stu) throws SQLException{
 		PreparedStatement ps=null;
 		ResultSet rs=null;
+		boolean result = false;
 		try{
 			con = (Connection) new DBConnection().getConnection();
 			ps = con.prepareStatement("UPDATE hrd_students SET stu_name= ? , stu_gender= ? , stu_university= ? , stu_class= ? , stu_status= ? WHERE stu_id= ? ");
@@ -51,40 +67,63 @@ public class StudentDAO {
 			ps.setString(6, stu.getId());	
 			
 			if(ps.executeUpdate()>0){
-				return true;
+				result=true;
 			}else{
-				return false;
+				result= false;
 			}
 		}finally{
 			if(rs !=null) rs.close();
 			if(ps !=null) ps.close();
 			if(con !=null) con.close();
+			
+			return result;
 		}
 	}
+	/*
+	 * @method deleteStudent : for to delete student if success return true else return false
+	 * @param String id : Student id
+	 * 
+	 */
+	@SuppressWarnings("finally")
 	public boolean deleteStudent(String id) throws SQLException{
 		PreparedStatement ps=null;
 		ResultSet rs=null;
+		boolean result = false;
 		try{			
 			con = (Connection) new DBConnection().getConnection();			
 			ps = con.prepareStatement("DELETE FROM hrd_students WHERE stu_id=?");											
 			ps.setString(1,id);
-			if(ps.executeUpdate()>0)
-				return true;
-			return false;
+			if(ps.executeUpdate()>0){
+				result=true;
+			}else{
+				result= false;
+			}
 		}finally{
 			if(rs !=null) rs.close();
 			if(ps !=null) ps.close();
 			if(con !=null) con.close();
+			return result;
 		}
 	}
+	/*
+	 * @method checkStatus
+	 * @param int status : Student status
+	 * 
+	 */
 	public int checkStatus(int status){
 		if(status==0) return 1;
 		else return 0;
 	}
-
+	/*
+	 * @method statusStudent : for to delete student if success return true else return false
+	 * @param String id : Student id
+	 * @param int status : Student status
+	 */
+	@SuppressWarnings("finally")
 	public boolean statusStudent(String id,int status) throws SQLException{
 		PreparedStatement ps=null;
 		ResultSet rs=null;
+		boolean result = false;
 		try{
 			con = (Connection) new DBConnection().getConnection();
 			ps = con.prepareStatement("UPDATE hrd_students SET stu_status= ? WHERE stu_id= ? ");
@@ -93,16 +132,23 @@ public class StudentDAO {
 			ps.setString(2, id);				
 			
 			if(ps.executeUpdate()>0){
-				return true;
+				result = true;
 			}else{
-				return false;
+				result = false;
 			}
 		}finally{
 			if(rs !=null) rs.close();
 			if(ps !=null) ps.close();
 			if(con !=null) con.close();
+			
+			return result;
 		}
 	}
+	/*
+	 * @method getStudents : return student info 
+	 * @param Student stu : Student info for to search 
+	 * 
+	 */
 	@SuppressWarnings("finally")
 	public ArrayList<Student> getStudents(Student stu) throws SQLException{
 		PreparedStatement ps=null;
@@ -148,6 +194,11 @@ public class StudentDAO {
 			return arrStu;
 		}		
 	}
+	/*
+	 * @method lastID : return last id  
+	 *  
+	 * 
+	 */
 	@SuppressWarnings("finally")
 	public String lastID() throws SQLException{
 		PreparedStatement ps=null;
